@@ -16,7 +16,7 @@ if [[ -z "$CODENAME" || -z "$KEEP_COUNT" ]]; then
 fi
 
 # Gather (package, version) pairs from reprepro list
-mapfile -t entries < <(reprepro -b apt-repo list "$CODENAME" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/^[ \t]+|[ \t]+$/, "", $3); if($2 && $3){print $2"|"$3}}' | sort -u)
+mapfile -t entries < <(reprepro list "$CODENAME" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $2); gsub(/^[ \t]+|[ \t]+$/, "", $3); if($2 && $3){print $2"|"$3}}' | sort -u)
 
 if [[ ${#entries[@]} -eq 0 ]]; then
   echo "No packages found to prune for $CODENAME"
@@ -44,14 +44,14 @@ for pkg in "${!pkg_to_versions[@]}"; do
     oldver="${versions[$i]}"
     echo "Pruning ${pkg} version ${oldver}"
     # Remove only this version for this codename
-    reprepro -b apt-repo removefilter "$CODENAME" "(Package (== ${pkg})) & (Version (== ${oldver}))" || true
+    reprepro removefilter "$CODENAME" "(Package (== ${pkg})) & (Version (== ${oldver}))" || true
     removed_any=true
   done
 done
 
 if [[ "$removed_any" == "true" ]]; then
   echo "Re-exporting indexes after prune"
-  reprepro -b apt-repo export "$CODENAME"
+  reprepro export "$CODENAME"
 else
   echo "Nothing to prune"
 fi

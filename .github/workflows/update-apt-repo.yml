@@ -52,6 +52,14 @@ jobs:
       
       - name: Make scripts executable
         run: chmod +x ./.github/workflows/scripts/*.sh
+
+      - name: Download repository state
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          name: apt-repository-state
+          path: .
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
       
       - name: "Download artifact from triggering workflow (preferred)"
         if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id != ''
@@ -100,7 +108,7 @@ jobs:
           fi
       
       - name: Prepare working repo (import existing Pages content)
-        run: ./.github/workflows/scripts/prepare_repo.sh "${{ env.PAGES_URL }}" "${{ env.CODENAME }}" "${{ env.COMPONENTS }}" "${{ env.ARCHITECTURES }}"
+        run: ./.github/workflows/scripts/prepare_repo.sh "${{ env.CODENAME }}" "${{ env.COMPONENTS }}" "${{ env.ARCHITECTURES }}"
 
       - name: Include new packages (append-only)
         env:
@@ -120,12 +128,35 @@ jobs:
       - name: Prune old versions (keep last 3)
         run: ./.github/workflows/scripts/prune_versions.sh "${{ env.CODENAME }}" 3
 
+      - name: Commit repository state
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update APT repository with new packages [skip ci]"
+            git push
+          fi
+
       - name: Upload Pages artifact
         id: upload-artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: apt-repo
+          path: .
+
+      - name: Save repository state
+        uses: actions/upload-artifact@v4
+        with:
+          name: apt-repository-state
+          path: |
+            conf/
+            dists/
+            pool/
+            gpg.key
+          retention-days: 30
 
   deploy-apt-repo:
     name: Deploy APT repository

@@ -2,42 +2,44 @@
 set -euo pipefail
 
 # Args:
-#   $1 - pages_url (e.g., https://fivegen-llc.github.io/sdwan-apt-repo/)
-#   $2 - codename (e.g., jammy)
-#   $3 - components (e.g., main)
-#   $4 - architectures (e.g., "amd64 arm64")
+#   $1 - codename (e.g., jammy)
+#   $2 - components (e.g., main)
+#   $3 - architectures (e.g., "amd64 arm64")
 
-PAGES_URL="${1:-}"
-CODENAME="${2:-}"
-COMPONENTS="${3:-}"
-ARCHITECTURES="${4:-}"
+CODENAME="${1:-}"
+COMPONENTS="${2:-}"
+ARCHITECTURES="${3:-}"
 
-if [[ -z "$PAGES_URL" || -z "$CODENAME" || -z "$COMPONENTS" || -z "$ARCHITECTURES" ]]; then
-  echo "Usage: $0 <pages_url> <codename> <components> <architectures>" >&2
+if [[ -z "$CODENAME" || -z "$COMPONENTS" || -z "$ARCHITECTURES" ]]; then
+  echo "Usage: $0 <codename> <components> <architectures>" >&2
   exit 1
 fi
 
-rm -rf apt-repo || true
-mkdir -p apt-repo
+# Work directly in the repository root instead of creating apt-repo subdirectory
+echo "Preparing repository structure in current directory"
 
-# Import current Pages content (best-effort)
-wget -r -nH --cut-dirs=1 -np -R "index.html*" -P apt-repo "$PAGES_URL" || true
+# Ensure basic structure exists
+mkdir -p conf
+mkdir -p "dists/${CODENAME}/${COMPONENTS}/binary-amd64"
+mkdir -p "dists/${CODENAME}/${COMPONENTS}/binary-arm64"
+mkdir -p pool/main
 
-mkdir -p apt-repo/conf
-mkdir -p "apt-repo/dists/${CODENAME}/${COMPONENTS}/binary-amd64"
-mkdir -p "apt-repo/dists/${CODENAME}/${COMPONENTS}/binary-arm64"
-mkdir -p apt-repo/pool/main
-
-if [[ ! -s apt-repo/conf/distributions ]]; then
-  cat > apt-repo/conf/distributions <<EOF
+# Create reprepro config if it doesn't exist
+if [[ ! -s conf/distributions ]]; then
+  echo "Creating reprepro configuration"
+  cat > conf/distributions <<EOF
 Codename: ${CODENAME}
 Suite: ${CODENAME}
 Architectures: ${ARCHITECTURES}
 Components: ${COMPONENTS}
 Description: SD-WAN APT Repository
+Origin: sdwan-apt-repo
+Label: sdwan-apt-repo
 SignWith: default
 EOF
+else
+  echo "Using existing reprepro configuration"
 fi
 
-echo "Repository workspace prepared at ./apt-repo"
+echo "Repository structure prepared in current directory"
 

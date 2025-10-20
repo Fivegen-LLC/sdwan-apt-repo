@@ -22,14 +22,15 @@ fi
 echo "Including packages from: $PACKAGES_DIR"
 echo "Target codename: $CODENAME"
 
+# Work in repository root (not apt-repo subdirectory)
 shopt -s nullglob
 for f in "$PACKAGES_DIR"/*.deb; do
   echo "Including $(basename "$f")"
-  reprepro -b apt-repo includedeb "$CODENAME" "$f"
+  reprepro includedeb "$CODENAME" "$f"
 done
 shopt -u nullglob
 
-reprepro -b apt-repo export "$CODENAME"
+reprepro export "$CODENAME"
 
 echo "Indexes exported for ${CODENAME}"
 
