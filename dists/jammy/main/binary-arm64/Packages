@@ -49,6 +49,22 @@ SHA1: 2eb46ca0db5bbb256e21ba0ed03796052f8e9c6b
 MD5sum: ea46836b1748583d94c39b260ef222c7
 Description: Starter for SD-WAN agent
 
+Package: sdwan-cli
+Version: 1.0.0
+Architecture: arm64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 19392
+Homepage: https://fivegen.ru
+Priority: optional
+Section: sd-wan
+Filename: pool/main/s/sdwan-cli/sdwan-cli_1.0.0_arm64.deb
+Size: 7125564
+SHA256: 845237d8fa700d9390a33a1bf900713cfaa822f4f5d0efbd7de844b8ae443acf
+SHA1: 7babe0ad1205e67052058f3c260636ebb88f92c0
+MD5sum: d2492ec2dc29395629b6e457e62a646b
+Description: SD-WAN cli
+
 Package: sdwan-shell
 Version: 1.0.0
 Architecture: arm64
