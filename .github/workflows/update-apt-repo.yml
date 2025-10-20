@@ -56,8 +56,8 @@ jobs:
           sudo apt update
           sudo apt install -y reprepro apt-mirror
       
-      - name: Download .deb packages from Release of source repo
-        if: ${{ github.event_name == 'repository_dispatch' }}
+      - name: "Download .deb packages from Release of source repo"
+        if: github.event_name == 'repository_dispatch'
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
@@ -66,8 +66,8 @@ jobs:
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
 
-      - name: Fallback: download with tag without 'v' prefix
-        if: ${{ github.event_name == 'repository_dispatch' }}
+      - name: "Fallback: download with tag without v prefix"
+        if: github.event_name == 'repository_dispatch'
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
@@ -76,8 +76,8 @@ jobs:
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
 
-      - name: Download .deb packages manually (workflow_dispatch)
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != '' }}
+      - name: "Download .deb packages manually (workflow_dispatch)"
+        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ inputs.source_repo }}
@@ -86,8 +86,8 @@ jobs:
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
 
-      - name: Fallback: manual download without 'v' prefix
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != '' }}
+      - name: "Fallback: manual download without v prefix"
+        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ inputs.source_repo }}
