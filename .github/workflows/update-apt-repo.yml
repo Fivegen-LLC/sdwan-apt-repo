@@ -2,7 +2,7 @@ name: Update APT Repository
 
 on:
   repository_dispatch:
-    types: [package-updated]
+    types: [package-updated, manual-package-upload]
   workflow_dispatch:
     inputs:
       package:
@@ -28,6 +28,7 @@ env:
   CODENAME: jammy
   COMPONENTS: main
   ARCHITECTURES: amd64 arm64
+  PAGES_URL: https://fivegen-llc.github.io/sdwan-apt-repo/
 
 jobs:
   update-apt-repo:
@@ -43,18 +44,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      - name: Add reprepro multiple-versions repo
-        uses: myci-actions/add-deb-repo@11
-        with:
-          repo: https://packaging.gitlab.io/reprepro-multiple-versions
-          key-url: https://packaging.gitlab.io/reprepro-multiple-versions/gpg.key
-          suite: noble
-      
-      - name: Install APT repository tools
+      - name: Install tools
         run: |
           set -euxo pipefail
           sudo apt update
-          sudo apt install -y reprepro apt-mirror
+          sudo apt install -y reprepro dpkg-dev wget gh
       
       - name: "Download artifact from triggering workflow (preferred)"
         if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id != ''
@@ -66,6 +60,10 @@ jobs:
           run_id: ${{ github.event.client_payload.run_id }}
           github_token: ${{ secrets.GH_READ_TOKEN }}
         continue-on-error: true
+
+      - name: "Manual upload: clone source repo and copy .deb (manual-package-upload)"
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.source_repo != ''
+        run: ./.github/workflows/scripts/manual_upload_fetch.sh "${{ github.event.client_payload.source_repo }}" packages
 
       - name: "Fallback: download from Release tag (no v prefix)"
         if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
@@ -98,26 +96,33 @@ jobs:
             exit 1
           fi
       
-      - name: Create/Update APT repository
-        id: create-apt-repo
-        uses: morph027/apt-repo-action@v3.7
-        with:
-          repo-name: ${{ env.REPO_NAME }}
-          scan-dir: packages
-          signing-key: ${{ secrets.APT_SIGNING_KEY }}
-          signing-key-passphrase: ${{ secrets.APT_SIGNING_KEY_PASSPHRASE }}
-          codename: ${{ env.CODENAME }}
-          components: ${{ env.COMPONENTS }}
-          architectures: ${{ env.ARCHITECTURES }}
-          import-from-repo-url: https://fivegen-llc.github.io/sdwan-apt-repo/
-          import-from-repo-failure-allow: true
-      
+      - name: Prepare working repo (import existing Pages content)
+        run: ./.github/workflows/scripts/prepare_repo.sh "${{ env.PAGES_URL }}" "${{ env.CODENAME }}" "${{ env.COMPONENTS }}" "${{ env.ARCHITECTURES }}"
+
+      - name: Include new packages (append-only)
+        env:
+          GNUPGHOME: /home/runner/.gnupg
+        run: |
+          set -euxo pipefail
+          if [ -n "${{ secrets.APT_SIGNING_KEY }}" ]; then
+            echo "${{ secrets.APT_SIGNING_KEY }}" | gpg --batch --import
+            if [ -n "${{ secrets.APT_SIGNING_KEY_PASSPHRASE }}" ]; then
+              echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+              echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+              gpgconf --reload gpg-agent
+            fi
+          fi
+          ./.github/workflows/scripts/include_packages.sh "${{ env.CODENAME }}" packages
+
+      - name: Prune old versions (keep last 3)
+        run: ./.github/workflows/scripts/prune_versions.sh "${{ env.CODENAME }}" 3
+
       - name: Upload Pages artifact
         id: upload-artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ${{ steps.create-apt-repo.outputs.dir }}
+          path: apt-repo
 
   deploy-apt-repo:
     name: Deploy APT repository
