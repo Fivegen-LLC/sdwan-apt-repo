@@ -56,8 +56,18 @@ jobs:
           sudo apt update
           sudo apt install -y reprepro apt-mirror
       
+      - name: "Download artifact from triggering workflow (preferred)"
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id != ''
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          name: ${{ github.event.client_payload.artifact_name || 'deb-packages' }}
+          path: packages
+          repo: ${{ github.event.client_payload.source_repo }}
+          run_id: ${{ github.event.client_payload.run_id }}
+          github_token: ${{ secrets.GH_READ_TOKEN }}
+
       - name: "Download .deb packages from Release of source repo"
-        if: github.event_name == 'repository_dispatch'
+        if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
@@ -67,7 +77,7 @@ jobs:
           token: ${{ secrets.GH_READ_TOKEN }}
 
       - name: "Fallback: download with tag without v prefix"
-        if: github.event_name == 'repository_dispatch'
+        if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
