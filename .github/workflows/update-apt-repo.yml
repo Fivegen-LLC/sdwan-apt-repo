@@ -50,6 +50,9 @@ jobs:
           sudo apt update
           sudo apt install -y reprepro dpkg-dev wget gh
       
+      - name: Make scripts executable
+        run: chmod +x ./.github/workflows/scripts/*.sh
+      
       - name: "Download artifact from triggering workflow (preferred)"
         if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id != ''
         uses: dawidd6/action-download-artifact@v6
@@ -62,11 +65,11 @@ jobs:
         continue-on-error: true
 
       - name: "Manual upload: clone source repo and copy .deb (manual-package-upload)"
-        if: github.event_name == 'repository_dispatch' && github.event.client_payload.source_repo != ''
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.source_repo != '' && github.event.client_payload.run_id == ''
         run: ./.github/workflows/scripts/manual_upload_fetch.sh "${{ github.event.client_payload.source_repo }}" packages
 
       - name: "Fallback: download from Release tag (no v prefix)"
-        if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id == '' && github.event.client_payload.version != ''
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
