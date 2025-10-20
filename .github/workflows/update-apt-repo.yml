@@ -106,7 +106,7 @@ jobs:
         env:
           GNUPGHOME: /home/runner/.gnupg
         run: |
-          set -euxo pipefail
+          set -eo pipefail
           if [ -n "${{ secrets.APT_SIGNING_KEY }}" ]; then
             echo "${{ secrets.APT_SIGNING_KEY }}" | gpg --batch --import
             if [ -n "${{ secrets.APT_SIGNING_KEY_PASSPHRASE }}" ]; then
