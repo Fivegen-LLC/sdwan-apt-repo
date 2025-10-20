@@ -15,6 +15,23 @@ SHA1: 762133b8796358e68c5b1af217381a66a220a9a3
 MD5sum: 7aec0e7dba0f36ad27b25a58aff757c4
 Description: SD-WAN agent
 
+Package: sdwan-agent-starter
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 23840
+Depends: sdwan-agent
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-agent-starter/sdwan-agent-starter_1.0.0_amd64.deb
+Size: 9217016
+SHA256: 3157b7a1a7f7eff2d18e221127a670d086ad45b85086ab2d4e52d7e40a26ea7f
+SHA1: 87a68e9aff76fafdfc52d9d09db8b59df3cfd3c9
+MD5sum: 5ca6f34486b7226287002d65bc562d44
+Description: Starter for SD-WAN agent
+
 Package: sdwan-update-manager
 Version: 1.0.0
 Architecture: amd64
