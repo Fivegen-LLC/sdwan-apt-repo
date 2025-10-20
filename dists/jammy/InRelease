@@ -5,44 +5,44 @@ Origin: sdwan-apt-repo
 Label: sdwan-apt-repo
 Suite: jammy
 Codename: jammy
-Date: Mon, 20 Oct 2025 15:38:30 UTC
+Date: Mon, 20 Oct 2025 15:42:32 UTC
 Architectures: amd64 arm64
 Components: main
 Description: SD-WAN APT Repository
 MD5Sum:
- 528ccf314a4fce561f5c56d698cba1a6 2024 main/binary-amd64/Packages
- b5d685f74a552c0a2aa2815978666ad1 783 main/binary-amd64/Packages.gz
+ 1f43f0229b24c7f92046c38bdfc20847 2538 main/binary-amd64/Packages
+ c251ef5abad87bed85737df7d0d531e4 911 main/binary-amd64/Packages.gz
  6f5b09a61d035020b5941d5f6f800b35 131 main/binary-amd64/Release
- a5fea3d1b4988d49e33cd81e9a4986f4 2024 main/binary-arm64/Packages
- d4cedc6c6e910b5f108daacf1ed7cba6 791 main/binary-arm64/Packages.gz
+ d6c6136f60b345ef791455b8078ddc4b 2538 main/binary-arm64/Packages
+ c5a4445f39adc57a376d4f6774536389 917 main/binary-arm64/Packages.gz
  bcf423a9232199c9a1c6ed9789f15e62 131 main/binary-arm64/Release
 SHA1:
- 973ff070fb1e55c54e018e79b5e5d75da65fb356 2024 main/binary-amd64/Packages
- 4f7d3adffc2ad8b8aa1e850c0db074edcaa0f1e3 783 main/binary-amd64/Packages.gz
+ 899b2ffc7e2c10a76be6a4d3cae1586bfd774651 2538 main/binary-amd64/Packages
+ 725737b3cad800406a81a71d14b61e86c93929c2 911 main/binary-amd64/Packages.gz
  840d8e253842f49d9a8a593e0d6e6be672836d0e 131 main/binary-amd64/Release
- dcb8a9ee717efec2fccd815fdd15cb73d50d0067 2024 main/binary-arm64/Packages
- 2bef6714abdfce96adb2fd4f734da1515eef2677 791 main/binary-arm64/Packages.gz
+ 3cfa7e5ef910f1edd5fd41aa3f975f02050d672c 2538 main/binary-arm64/Packages
+ 94a7e6d4076dbc9ea073072138b8ba6f7db7c2fb 917 main/binary-arm64/Packages.gz
  e5b05017a4aec4b2414c00a54f96825436046d05 131 main/binary-arm64/Release
 SHA256:
- 4107715148bbf1d0250f0cc2fc9d84bc4a8ab7684d15e79edd7b3494caa0e034 2024 main/binary-amd64/Packages
- f69263b289edd7762632563ddea94f0b4dfd4414c24095e4f52b80dc0a0c854a 783 main/binary-amd64/Packages.gz
+ c909944f9ffddb2c43e40b1457e36fab52136600c21b544f16fbeec92d6845b7 2538 main/binary-amd64/Packages
+ d76d5c1496b0985ec06774a7d28b74c1094e26745ceb44195b3528e7c9d06136 911 main/binary-amd64/Packages.gz
  fa85a376404ce0d601bb2b176cabebcd747b259fbed4a1d5d9e0127e81aab296 131 main/binary-amd64/Release
- 384d08a3ef5a39df5e8c837b548fafc54281db5505587a1426392128807f3c36 2024 main/binary-arm64/Packages
- e74cc3d40bf4028f813adf69c79cd147a9f733257942416cecbe1f9edf2e55b2 791 main/binary-arm64/Packages.gz
+ 997362eccbdb99d3362dcd4eb08f4b907f7eaf2d1f214058a0c0d2bee330c0ec 2538 main/binary-arm64/Packages
+ 82a10bc7d1869b4486180220b0333b494dee694206ca768762d232fe3f8a58be 917 main/binary-arm64/Packages.gz
  5051dacdebfda44444e9a01fcde93791d2bdc606b18dc39404772aa42c714327 131 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEons0cXuOo2WWn58toDuYJiDNLI4FAmj2V3YACgkQoDuYJiDN
-LI6ZfQ/+LUNDbLWk6mHBCow0CjH9Y+3ViYG8BQVDahZ1mcElnLevEyJVFGklQqIr
-hhUYwStKbt3TQD6cyDMLK7sTgmnO92WVIuiA44xTBKPbnDOwmdwIga2oo1imJZe8
-ejwqf3nqRGcn++rmTB0mQDKSTa84EQXjIq+Ylt6b6VK+tPkxJ9iv96K7kxp8R5Ny
-H9LqwRR78Yx+ounsXiGBr24bZkMOVYXnbQXdQrnMToaoQ8gfyUmzYtq4hplKJIRr
-8k9nH8tIlYPkuWQc5O/uuwWbvf7IMF/E7cN4lNaaBOR96OVHOllnjyTEtVlGVvu1
-i09Xze5yhjGgXoLqv9J2cMZcMIHLI1r8arJOga5kd9DMCJ08zuwCqhPsl4LO0qVv
-jfFUPx4DfFktjBU7fPZFe7HnUdzpwLTT0QMWa43hK/WjZ1mTShEZaPKKdHe997QU
-Re1MY9H77YvlIOnEJ2lasTllwidvG+0BPFTxbDVtcIaAqtGSXe0UD9kBa+ZncLS6
-u6GQfjKkXjojewIkf2KFIrD1OQy0NzsdKzmKFppkg4uSKKrFySFVypTqGTmipX/b
-sLGINLI/JoFQix+3J3dr6Fp7uan6sZ7NOaW6ZCXp6GumwZ6nEkNLtaX0P0yNtRf5
-ycdqEmn8/VMgxe+qgU+wgwCWHQ6gbYzISlxZLdC/OVTp47pJa7U=
-=V8Fz
+iQIzBAEBCgAdFiEEons0cXuOo2WWn58toDuYJiDNLI4FAmj2WGgACgkQoDuYJiDN
+LI7qbg//fHbcM6JQ5CCePuvpZ0DbG92gtu1pTZg/11kliRhR3mX3vrzuXrLz1up5
+G1RB6fJB2mSmmkT8l67pVsBtdvSbpjyWBnvXVSrP88AR4HPTgTqGVrIjcHirizrn
+NPjlNdRuF7amx9AItyMMIum/yHkJFqyoadItK3CqxYA1yzUsyx4ksLNkrAUrRQfA
+f/NgAOk/+5H3lbKdA3CcL1LYjoDg0U32uUm6zgPkVdUjIyYlnYTCplznPFMEwKy2
+d88vyiN9p8Fi7ablYVBJ0Q45Aa9hfOi3eY/UYp568Jg5m7eCI/jRUgdy45usPHNW
+O7YEiRKtTF0OXaJNbKf1sAO9LIiI+AEQJ4RFgmhKYaFauJqpKaE5Je5pFYeyn/al
+0Ve4BMCGZvV8tcvCj8Lf0MnnL92r1/Z02ooi9mzIYU6GpYQ4WoO+376BZDWh0Ntf
+ajQ3Cn1voqAnns37gktp7yHUJ/wVCbq40nLrUo1dAfludTcNgNdT4d18nXVmh4Oq
+woXqJo9JIs3T5BFQV0eUSeGloR75l3nIGXHI9BW9Hvg34YJFlxNFPHmBHZ4Nf8qw
+CCr3aQaMGl+MtxQDbAPYoUBc6u+t38wMHhKCaeu+f2k9PuDwpde91kH1rPqVp8TK
+7ah+JH5JYpRCtiItqyOG52vdaS2FUJnMGtQZt67U577CBiq8gLQ=
+=sku3
 -----END PGP SIGNATURE-----

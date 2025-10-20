@@ -15,6 +15,23 @@ SHA1: 2e7604b0e67e2dff4b613783b39b1d7542e0ff67
 MD5sum: f3a37dc6fc43f994b73d472a592c1bf3
 Description: SD-WAN agent
 
+Package: sdwan-agent-orc
+Version: 1.0.0
+Architecture: arm64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 20672
+Depends: wireguard
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-agent-orc/sdwan-agent-orc_1.0.0_arm64.deb
+Size: 7634250
+SHA256: 344a519344aa6be1a51b74b2ea6e8b50a54f759a60b16de7d7cbbf1707fa56e7
+SHA1: a88e4763037550aec5eca5341fc5de35de1c944a
+MD5sum: 184b636a78a4d1d834e1e033e02e9684
+Description: SD-WAN agent for orchestrator
+
 Package: sdwan-agent-starter
 Version: 1.0.0
 Architecture: arm64
