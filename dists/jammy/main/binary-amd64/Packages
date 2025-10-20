@@ -15,3 +15,19 @@ SHA1: 762133b8796358e68c5b1af217381a66a220a9a3
 MD5sum: 7aec0e7dba0f36ad27b25a58aff757c4
 Description: SD-WAN agent
 
+Package: sdwan-update-manager
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 18620
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-update-manager/sdwan-update-manager_1.0.0_amd64.deb
+Size: 7060808
+SHA256: 4d2d6366df0ef82108c0ed7f060ed2cf86e79cfb450537f33345f7ade1f1ecfa
+SHA1: ae787933ac7405f9b864a54fd68d2a161a04778e
+MD5sum: 14516557c67f90b098cf81936111dd9b
+Description: SDWAN Update-manager
+
