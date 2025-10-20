@@ -60,23 +60,14 @@ jobs:
         if: github.event_name == 'repository_dispatch' && github.event.client_payload.run_id != ''
         uses: dawidd6/action-download-artifact@v6
         with:
-          name: ${{ github.event.client_payload.artifact_name || 'deb-packages' }}
+          name: ${{ github.event.client_payload.artifact_name != '' && github.event.client_payload.artifact_name || 'deb-packages' }}
           path: packages
           repo: ${{ github.event.client_payload.source_repo }}
           run_id: ${{ github.event.client_payload.run_id }}
           github_token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
 
-      - name: "Download .deb packages from Release of source repo"
-        if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
-        uses: robinraju/release-downloader@v1.11
-        with:
-          repository: ${{ github.event.client_payload.source_repo }}
-          tag: v${{ github.event.client_payload.version }}
-          fileName: "*.deb"
-          out-file-path: packages
-          token: ${{ secrets.GH_READ_TOKEN }}
-
-      - name: "Fallback: download with tag without v prefix"
+      - name: "Fallback: download from Release tag (no v prefix)"
         if: github.event_name == 'repository_dispatch' && (github.event.client_payload.run_id == '' || failure())
         uses: robinraju/release-downloader@v1.11
         with:
@@ -85,18 +76,9 @@ jobs:
           fileName: "*.deb"
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
 
       - name: "Download .deb packages manually (workflow_dispatch)"
-        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
-        uses: robinraju/release-downloader@v1.11
-        with:
-          repository: ${{ inputs.source_repo }}
-          tag: v${{ inputs.version }}
-          fileName: "*.deb"
-          out-file-path: packages
-          token: ${{ secrets.GH_READ_TOKEN }}
-
-      - name: "Fallback: manual download without v prefix"
         if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
         uses: robinraju/release-downloader@v1.11
         with:
@@ -105,6 +87,16 @@ jobs:
           fileName: "*.deb"
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
+
+      - name: "Verify packages exist"
+        run: |
+          set -euxo pipefail
+          ls -la packages || true
+          if [ -z "$(ls -1 packages/*.deb 2>/dev/null || true)" ]; then
+            echo "No .deb packages found in packages/" >&2
+            exit 1
+          fi
       
       - name: Create/Update APT repository
         id: create-apt-repo
