@@ -1,0 +1,33 @@
+Package: sdwan-agent
+Version: 1.0.0
+Architecture: arm64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 20480
+Depends: wireguard, openvswitch-switch
+Homepage: https://fivegen.ru
+Priority: optional
+Section: sd-wan
+Filename: pool/main/s/sdwan-agent/sdwan-agent_1.0.0_arm64.deb
+Size: 7614466
+SHA256: 4b475691c4a1d73aa1052ac68b1ae323b9f7adf6719b23a56065c1d11dad7cfe
+SHA1: 2e7604b0e67e2dff4b613783b39b1d7542e0ff67
+MD5sum: f3a37dc6fc43f994b73d472a592c1bf3
+Description: SD-WAN agent
+
+Package: sdwan-update-manager
+Version: 1.0.0
+Architecture: arm64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 17536
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-update-manager/sdwan-update-manager_1.0.0_arm64.deb
+Size: 6421194
+SHA256: 2614c95ba8c8d91cfdf117e841760a4c96a3b8383a67923e27976327b30e619f
+SHA1: e79e21b91058e26dcd68394eeb59149623c94549
+MD5sum: 0011b173a32be3b926232cd0ef010e68
+Description: SDWAN Update-manager
+

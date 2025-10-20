@@ -1,0 +1,6 @@
+Archive: jammy
+Component: main
+Origin: sdwan-apt-repo
+Label: sdwan-apt-repo
+Architecture: amd64
+Description: SD-WAN APT Repository
