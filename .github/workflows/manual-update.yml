@@ -1,0 +1,40 @@
+name: Manual Package Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: 'Source repository (e.g., Fivegen-LLC/sdwan-agent)'
+        required: true
+        type: string
+      package_name:
+        description: 'Package name'
+        required: true
+        type: string
+      version:
+        description: 'Package version'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  trigger-update:
+    name: Trigger APT repository update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger APT repo update
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: Fivegen-LLC/sdwan-apt-repo
+          event-type: package-updated
+          client-payload: |
+            {
+              "package": "${{ inputs.package_name }}",
+              "version": "${{ inputs.version }}",
+              "source_repo": "${{ inputs.source_repo }}",
+              "artifacts": ["deb-packages"]
+            }
+

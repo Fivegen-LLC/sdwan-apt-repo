@@ -1,0 +1,152 @@
+name: Update APT Repository
+
+on:
+  repository_dispatch:
+    types: [package-updated]
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package name to update'
+        required: false
+        default: ''
+      version:
+        description: 'Package version'
+        required: false
+        default: ''
+      source_repo:
+        description: 'Source repository'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+env:
+  REPO_NAME: sdwan-apt-repo
+  CODENAME: jammy
+  COMPONENTS: main
+  ARCHITECTURES: amd64 arm64
+
+jobs:
+  update-apt-repo:
+    name: Update APT repository
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_id: ${{ steps.upload-artifact.outputs.artifact-id }}
+      keyring: ${{ steps.create-apt-repo.outputs.keyring }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Add reprepro multiple-versions repo
+        uses: myci-actions/add-deb-repo@11
+        with:
+          repo: https://packaging.gitlab.io/reprepro-multiple-versions
+          key-url: https://packaging.gitlab.io/reprepro-multiple-versions/gpg.key
+          suite: noble
+      
+      - name: Install APT repository tools
+        run: |
+          set -euxo pipefail
+          sudo apt update
+          sudo apt install -y reprepro apt-mirror
+      
+      - name: Download .deb packages from Release of source repo
+        if: github.event_name == 'repository_dispatch'
+        uses: robinraju/release-downloader@v1.11
+        with:
+          repository: ${{ github.event.client_payload.source_repo }}
+          tag: v${{ github.event.client_payload.version }}
+          fileName: "*.deb"
+          out-file-path: packages
+          token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
+
+      - name: Fallback: download with tag without 'v' prefix
+        if: github.event_name == 'repository_dispatch'
+        uses: robinraju/release-downloader@v1.11
+        with:
+          repository: ${{ github.event.client_payload.source_repo }}
+          tag: ${{ github.event.client_payload.version }}
+          fileName: "*.deb"
+          out-file-path: packages
+          token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
+
+      - name: Download .deb packages manually (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
+        uses: robinraju/release-downloader@v1.11
+        with:
+          repository: ${{ inputs.source_repo }}
+          tag: v${{ inputs.version }}
+          fileName: "*.deb"
+          out-file-path: packages
+          token: ${{ secrets.GH_READ_TOKEN }}
+        continue-on-error: true
+
+      - name: Fallback: manual download without 'v' prefix
+        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
+        uses: robinraju/release-downloader@v1.11
+        with:
+          repository: ${{ inputs.source_repo }}
+          tag: ${{ inputs.version }}
+          fileName: "*.deb"
+          out-file-path: packages
+          token: ${{ secrets.GH_READ_TOKEN }}
+      
+      - name: Create/Update APT repository
+        id: create-apt-repo
+        uses: morph027/apt-repo-action@v3.7
+        with:
+          repo-name: ${{ env.REPO_NAME }}
+          scan-dir: packages
+          signing-key: ${{ secrets.APT_SIGNING_KEY }}
+          signing-key-passphrase: ${{ secrets.APT_SIGNING_KEY_PASSPHRASE }}
+          codename: ${{ env.CODENAME }}
+          components: ${{ env.COMPONENTS }}
+          architectures: ${{ env.ARCHITECTURES }}
+          import-from-repo-url: https://fivegen-llc.github.io/sdwan-apt-repo/
+          import-from-repo-failure-allow: true
+      
+      - name: Upload Pages artifact
+        id: upload-artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: ${{ steps.create-apt-repo.outputs.dir }}
+
+  deploy-apt-repo:
+    name: Deploy APT repository
+    runs-on: ubuntu-latest
+    needs: update-apt-repo
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Adding APT repository summary
+        run: |
+          echo ':rocket: APT Repository Updated' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '**Updated packages:**' >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "- ${{ github.event.client_payload.package }} (${{ github.event.client_payload.version }})" >> $GITHUB_STEP_SUMMARY
+            echo "- Source: ${{ github.event.client_payload.source_repo }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '**Installation instructions:**' >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo 'curl -sfLo /etc/apt/trusted.gpg.d/${{ needs.update-apt-repo.outputs.keyring }}.asc ${{ steps.deployment.outputs.page_url }}gpg.key' >> $GITHUB_STEP_SUMMARY
+          echo 'echo "deb ${{ steps.deployment.outputs.page_url }} ${{ env.CODENAME }} ${{ env.COMPONENTS }}" >/etc/apt/sources.list.d/${{ env.REPO_NAME }}.list' >> $GITHUB_STEP_SUMMARY
+          echo 'sudo apt update' >> $GITHUB_STEP_SUMMARY
+          echo 'sudo apt install <package-name>' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
