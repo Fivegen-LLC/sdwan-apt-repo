@@ -57,7 +57,7 @@ jobs:
           sudo apt install -y reprepro apt-mirror
       
       - name: Download .deb packages from Release of source repo
-        if: github.event_name == 'repository_dispatch'
+        if: ${{ github.event_name == 'repository_dispatch' }}
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
@@ -65,10 +65,9 @@ jobs:
           fileName: "*.deb"
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
-        continue-on-error: true
 
       - name: Fallback: download with tag without 'v' prefix
-        if: github.event_name == 'repository_dispatch'
+        if: ${{ github.event_name == 'repository_dispatch' }}
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ github.event.client_payload.source_repo }}
@@ -76,10 +75,9 @@ jobs:
           fileName: "*.deb"
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
-        continue-on-error: true
 
       - name: Download .deb packages manually (workflow_dispatch)
-        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != '' }}
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ inputs.source_repo }}
@@ -87,10 +85,9 @@ jobs:
           fileName: "*.deb"
           out-file-path: packages
           token: ${{ secrets.GH_READ_TOKEN }}
-        continue-on-error: true
 
       - name: Fallback: manual download without 'v' prefix
-        if: github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != ''
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.source_repo != '' && inputs.version != '' }}
         uses: robinraju/release-downloader@v1.11
         with:
           repository: ${{ inputs.source_repo }}
