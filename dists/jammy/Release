@@ -1,0 +1,29 @@
+Origin: sdwan-apt-repo
+Label: sdwan-apt-repo
+Suite: jammy
+Codename: jammy
+Date: Mon, 20 Oct 2025 15:24:26 UTC
+Architectures: amd64 arm64
+Components: main
+Description: SD-WAN APT Repository
+MD5Sum:
+ c20123ff29aac169d3059d4d19a416ad 508 main/binary-amd64/Packages
+ 91c9f27d1c96d8e0b8e129b2545a4cfa 379 main/binary-amd64/Packages.gz
+ 6f5b09a61d035020b5941d5f6f800b35 131 main/binary-amd64/Release
+ 24f642ddcadc489e0b2f116b20cc680c 508 main/binary-arm64/Packages
+ 02bdac2713a4dfc2ac56e0a2f6d24117 381 main/binary-arm64/Packages.gz
+ bcf423a9232199c9a1c6ed9789f15e62 131 main/binary-arm64/Release
+SHA1:
+ eeefc72a76bc56642c575c6a054ea6bb90c5a0f7 508 main/binary-amd64/Packages
+ 7c1f27394c6114b585d4b7663ce2ca7eb8a1d6f1 379 main/binary-amd64/Packages.gz
+ 840d8e253842f49d9a8a593e0d6e6be672836d0e 131 main/binary-amd64/Release
+ 8424377af61983df4292ba3fa270ca19fec2d5e6 508 main/binary-arm64/Packages
+ bb00f4ba2d0e1aae069dc1edf02144bda20bd759 381 main/binary-arm64/Packages.gz
+ e5b05017a4aec4b2414c00a54f96825436046d05 131 main/binary-arm64/Release
+SHA256:
+ dfd1781390fe59ba620fffa8f672187973671368c58f8b30536e10da02f149e2 508 main/binary-amd64/Packages
+ 2b266ed0317988a0c8ffc7e74a77129ae02267cc595c186d6f029f7bab546505 379 main/binary-amd64/Packages.gz
+ fa85a376404ce0d601bb2b176cabebcd747b259fbed4a1d5d9e0127e81aab296 131 main/binary-amd64/Release
+ 3c1e35e9c63212baca5166cde4d1df462fe216c9a643419abc2e439f93bed111 508 main/binary-arm64/Packages
+ 5b5af16f75feb85f16260f0121ba73e61a1481a795fb29c7c64c3e4fefe52c37 381 main/binary-arm64/Packages.gz
+ 5051dacdebfda44444e9a01fcde93791d2bdc606b18dc39404772aa42c714327 131 main/binary-arm64/Release

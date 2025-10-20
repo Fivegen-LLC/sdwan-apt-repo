@@ -1,0 +1,8 @@
+Codename: jammy
+Suite: jammy
+Architectures: amd64 arm64
+Components: main
+Description: SD-WAN APT Repository
+Origin: sdwan-apt-repo
+Label: sdwan-apt-repo
+SignWith: default
