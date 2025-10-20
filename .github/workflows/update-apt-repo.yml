@@ -125,6 +125,18 @@ jobs:
           fi
           ./.github/workflows/scripts/include_packages.sh "${{ env.CODENAME }}" packages
 
+      - name: Export public GPG key
+        env:
+          GNUPGHOME: /home/runner/.gnupg
+        run: |
+          if [ -n "${{ secrets.APT_SIGNING_KEY }}" ]; then
+            # Export public key for APT clients
+            gpg --armor --export > gpg.key
+            echo "Public GPG key exported to gpg.key"
+          else
+            echo "No signing key configured, skipping GPG key export"
+          fi
+
       - name: Prune old versions (keep last 3)
         run: ./.github/workflows/scripts/prune_versions.sh "${{ env.CODENAME }}" 3
 
