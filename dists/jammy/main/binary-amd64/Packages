@@ -1,3 +1,20 @@
+Package: grafana-agent-flow
+Version: 0.43.4-1
+License: Apache 2.0
+Vendor: Grafana Labs
+Architecture: amd64
+Maintainer: <@02d9befef3f4>
+Installed-Size: 219028
+Homepage: https://github.com/grafana/agent
+Priority: optional
+Section: default
+Filename: pool/main/g/grafana-agent-flow/grafana-agent-flow_0.43.4-1_amd64.deb
+Size: 65789892
+SHA256: 18946aa55af11ec2cbdd79a406158dbffb98d2062d7af5128f473e189ad99d45
+SHA1: 96260ada24fe01a0d319a3852063b0993a041ed1
+MD5sum: f268ac84a44e40f41a3a5022b1049ab0
+Description: no description given
+
 Package: openvswitch-common
 Source: openvswitch
 Version: 3.1.1-1
@@ -262,6 +279,34 @@ SHA256: f59c5ed027b6845612da76f99c9834abb8df0861fbd46fe65c13a6a4138aadbd
 SHA1: 5be69208c402a48b8a4d5b65ad23d1b23a0cf790
 MD5sum: aba30749fc5e350651b0d6097f08216a
 Description: PostInstall COnfigure Tool
+
+Package: python3-openvswitch
+Source: openvswitch
+Version: 3.1.1-1
+Architecture: amd64
+Maintainer: Open vSwitch developers <dev@openvswitch.org>
+Installed-Size: 1053
+Depends: python3 (<< 3.11), python3 (>= 3.10~), python3-sortedcontainers, python3:any, libc6 (>= 2.34), libssl3 (>= 3.0.0~~alpha1), libunbound8 (>= 1.8.0)
+Suggests: python3-netaddr, python3-pyparsing
+Homepage: http://openvswitch.org/
+Priority: optional
+Section: python
+Filename: pool/main/o/openvswitch/python3-openvswitch_3.1.1-1_amd64.deb
+Size: 285356
+SHA256: b86c5946816aebb3e1fb8a712420c111f81a998e4de5e7e5a78859ac204ab869
+SHA1: e5f7e2cafbd1ba7ead1f8c95c7796e7b157575f4
+MD5sum: e7141bd3088a89493f97ff8319e0b625
+Description: Python 3 bindings for Open vSwitch
+ Open vSwitch is a production quality, multilayer, software-based,
+ Ethernet virtual switch. It is designed to enable massive network
+ automation through programmatic extension, while still supporting
+ standard management interfaces and protocols (e.g. NetFlow, IPFIX,
+ sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag). In addition, it is designed
+ to support distribution across multiple physical servers similar to
+ VMware's vNetwork distributed vswitch or Cisco's Nexus 1000V.
+ .
+ This package contains the full Python 3 bindings for Open vSwitch
+ database.
 
 Package: sdwan-agent
 Version: 1.0.0
