@@ -15,6 +15,73 @@ SHA1: 762133b8796358e68c5b1af217381a66a220a9a3
 MD5sum: 7aec0e7dba0f36ad27b25a58aff757c4
 Description: SD-WAN agent
 
+Package: sdwan-agent-orc
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 21952
+Depends: wireguard
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-agent-orc/sdwan-agent-orc_1.0.0_amd64.deb
+Size: 8385704
+SHA256: bffb314b755be132fe44df7f4455abdcdecb46c64632031a8e462c9b69945a7e
+SHA1: b40425bfe616fd11e524f7cd60f218327e746539
+MD5sum: 687f570087103706e2a8ebf38c360fe2
+Description: SD-WAN agent for orchestrator
+
+Package: sdwan-agent-starter
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 23840
+Depends: sdwan-agent
+Homepage: https://fivegen.ru
+Priority: extra
+Section: sd-wan
+Filename: pool/main/s/sdwan-agent-starter/sdwan-agent-starter_1.0.0_amd64.deb
+Size: 9217016
+SHA256: 3157b7a1a7f7eff2d18e221127a670d086ad45b85086ab2d4e52d7e40a26ea7f
+SHA1: 87a68e9aff76fafdfc52d9d09db8b59df3cfd3c9
+MD5sum: 5ca6f34486b7226287002d65bc562d44
+Description: Starter for SD-WAN agent
+
+Package: sdwan-cli
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 20612
+Homepage: https://fivegen.ru
+Priority: optional
+Section: sd-wan
+Filename: pool/main/s/sdwan-cli/sdwan-cli_1.0.0_amd64.deb
+Size: 7844398
+SHA256: a060ddc7d067d0d8b6d05e325c361421bed9bb185ca703a9e2580d2785b8f86c
+SHA1: 8ebbbd2b5b5edfa5df3b3b591a9bb19aa3cdfe44
+MD5sum: 28c7375bdc66260db3cc468c7622a6ec
+Description: SD-WAN cli
+
+Package: sdwan-shell
+Version: 1.0.0
+Architecture: amd64
+License: Private
+Maintainer: Ruslan Malinovsky <rm@fivegen.ru>
+Installed-Size: 16596
+Depends: sdwan-cli
+Homepage: https://fivegen.ru
+Priority: optional
+Section: sd-wan
+Filename: pool/main/s/sdwan-shell/sdwan-shell_1.0.0_amd64.deb
+Size: 6141928
+SHA256: 6859611cd142585457cd82aca83e6ab8f388a248e8d5cbb3c94f0505d36fc67f
+SHA1: 55621b8187290221c53f7fe5ddf3e18dd022bff4
+MD5sum: ec8e6a11d4d192a3283da5aab5eda916
+Description: SDWAN User-shell
+
 Package: sdwan-update-manager
 Version: 1.0.0
 Architecture: amd64
