@@ -74,6 +74,8 @@ jobs:
 
       - name: "Manual upload: clone source repo and copy .deb (manual-package-upload)"
         if: github.event_name == 'repository_dispatch' && github.event.client_payload.source_repo != '' && github.event.client_payload.run_id == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: ./.github/workflows/scripts/manual_upload_fetch.sh "${{ github.event.client_payload.source_repo }}" packages
 
       - name: "Fallback: download from Release tag (no v prefix)"

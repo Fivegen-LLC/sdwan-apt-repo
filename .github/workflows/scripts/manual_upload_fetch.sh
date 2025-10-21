@@ -13,10 +13,17 @@ if [[ -z "$SRC_REPO" ]]; then
   exit 1
 fi
 
+echo "Cloning repository: $SRC_REPO"
 rm -rf /tmp/src || true
 gh repo clone "$SRC_REPO" /tmp/src
-mkdir -p "$OUT_DIR"
-cp /tmp/src/packages/*.deb "$OUT_DIR" 2>/dev/null || true
 
-ls -la "$OUT_DIR" || true
+echo "Copying packages to: $OUT_DIR"
+mkdir -p "$OUT_DIR"
+cp /tmp/src/packages/*.deb "$OUT_DIR" 2>/dev/null || {
+  echo "No .deb files found in $SRC_REPO/packages/" >&2
+  exit 1
+}
+
+echo "Packages copied successfully:"
+ls -la "$OUT_DIR"
 
